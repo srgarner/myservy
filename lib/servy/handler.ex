@@ -1,4 +1,8 @@
 defmodule Servy.Handler do
+  @moduledoc "Handles HTTP requests."
+
+
+  @doc "transforms the request into a response"
   def handle(request) do
     request
     |> parse
@@ -9,6 +13,7 @@ defmodule Servy.Handler do
     |> format_response
   end
 
+  @doc "logs 404 requests"
   def track(%{status: 404, path: path} = conv) do
     IO.puts("Warning: #{path} is on the loose!")
     conv
@@ -50,11 +55,28 @@ defmodule Servy.Handler do
     %{ conv | status: 200, resp_body: "Bear #{id}" }
   end
 
+  @pages_path Path.expand("../../pages", __DIR__)
+
   def route(%{method: "GET", path: "/about"} = conv) do
-      Path.expand("../../pages", __DIR__)
+    @pages_path
       |> Path.join("about.html")
       |> File.read
       |> handle_file(conv)
+  end
+
+  def route(%{method: "GET", path: "/bears/new"} = conv) do
+    @pages_path
+      |> Path.join("form.html")
+      |> File.read
+      |> handle_file(conv)
+  end
+
+  #general routing for any file requests in /pages directory
+  def route(%{method: "GET", path: "/pages/" <> file} = conv) do
+    @pages_path
+    |> Path.join(file <> ".html")
+    |> File.read
+    |> handle_file(conv)
   end
 
   def route(%{ path: path} = conv) do
@@ -162,8 +184,21 @@ Accept: */*
 response = Servy.Handler.handle(request)
 
 IO.puts response
+
 request = """
   GET /about HTTP/1.1
+  Host: example.com
+  User-Agent: ExampleBrowser/1.0
+  Accept: */*
+
+  """
+
+response = Servy.Handler.handle(request)
+
+IO.puts response
+
+request = """
+  GET /bears/new HTTP/1.1
   Host: example.com
   User-Agent: ExampleBrowser/1.0
   Accept: */*
