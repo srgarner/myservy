@@ -20,5 +20,4 @@ defmodule Servy.Conv do
       500 => "Internal Server Error"
     }[code]
   end
-
 end

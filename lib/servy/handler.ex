@@ -20,15 +20,6 @@ defmodule Servy.Handler do
     |> track
     |> format_response
   end
- #Same as above, just as a case statement
-   # case File.read(file) do
-    #   {:ok, content} ->
-    #     %{ conv | status: 200, resp_body: content }
-    #   {:error, :enoent} ->
-    #     %{ conv | status: 404, resp_body: "File not found!" }
-    #   {:error, reason} ->
-    #     %{ conv | status: 500, resp_body: "File error: #{reason}" }
-    # end
 
   def route(%Conv{ method: "GET", path: "/wildthings" } = conv) do
     %{ conv | status: 200, resp_body: "Bears, Lions, Tigers" }

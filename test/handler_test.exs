@@ -40,7 +40,7 @@ defmodule HandlerTest do
     Content-Length: 356\r
     \r
     <h1>All The Bears!</h1>
-
+    
     <ul>
       <li>Brutus - Grizzly</li>
       <li>Iceman - Polar</li>
@@ -143,7 +143,7 @@ defmodule HandlerTest do
 
     <blockquote>
     When we contemplate the whole globe...
-    </blockquote>
+    </blockquote>    
     """
 
     assert remove_whitespace(response) == remove_whitespace(expected_response)
@@ -174,5 +174,5 @@ defmodule HandlerTest do
 
   defp remove_whitespace(text) do
     String.replace(text, ~r{\s}, "")
-  end
+  end 
 end
