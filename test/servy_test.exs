@@ -2,7 +2,7 @@ defmodule ServyTest do
   use ExUnit.Case
   doctest Servy
 
-  test "greets the world" do
-    assert Servy.hello() == :world
+  test "what is math" do
+    assert 2 + 2 == 4
   end
 end
